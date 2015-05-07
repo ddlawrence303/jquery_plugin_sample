@@ -11,25 +11,14 @@
     function Slidepanel( $element, options ) {
         this.$element = $element;
         this.options = $.extend( {}, defaults, options) ;
-        this._defaults = defaults;//console.log(this);
+        this._defaults = defaults;
         this.init();
-
-		//console.log($('#slidepanel'));
     }
 
     Slidepanel.prototype.init = function () { console.log('init');
         
         var base = this;
         if($('#slidepanel').length == 0){
-            /*var panel_html = '<div id="slidepanel" class="cb_slide_panel">' +
-			'<div class="wrapper"> <a href="#" class="close">Close</a>' + 
-            '<div class="inner">' +
-			'<div class="wrapper">' +
-			'<p>123123131231313123</p>'+
-			'</div>'+
-			'</div>'+
-			'</div>'+
-			'</div>'; */
 
 //setting panel content		
 			var panel_html = '';
