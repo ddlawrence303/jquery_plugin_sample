@@ -297,43 +297,105 @@ copyright twitter, Inc.
  * limitations under the License.
  */
 
- +function ($) {
+ 
 
- 	'use strict';
++function ($) {
+	'use strict';
+
+	// carousel class definition
+	var Carousel = function(element, options){
+		this.$element = $(element)
+		this.$indicators = this.$element.find('.carousel-indicators')
+		this.options =  options
+		this.options.pause == 'hover' && this.$element
+			.on('mouseenter', $.proxy(this.pause, this))
+			.on('mouseleave', $.proxy(this.cycle, this))
+	}
+
+	//carousel prototype
+	Carousel.prototype = {
+
+		//cycle
+		cycle : function (e){
+			if(!e){
+				this.paused = false;
+			}
+			if(this.interval){ clearInterval(this.interval);}
+			this.options.interval
+				&& !this.paused
+				&& (this.interval = setInterval($.proxy(this.next, this), this.options.interval))
+			return this
+		}
+		, 
+		//get index
+		getActiveIndex = function(e){
+
+		}
+		,
+		// to the determination
+		to : function (e) {
+
+		}
+		,
+		// pause the function
+		pause: function (e) {
+
+		}
+		,
+		next: function(e){
+
+		}
+		,
+		prev: function(e){
+
+		}
+		,
+
+		// 滑動效果
+		slide: function(e){
+
+		}
+	}
 
 
+	var old = $.fn.carousel
 
- 	// carousel plugin definition
- 	var old = $.fn.carousel;
+	$.fn.carousel = function(option){
+		return this.each(function(){
+			var $this = $(this)
+			, data = $this.data('carousel')
+			, options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option)
 
- 	$.fn.carousel = function(option){
- 		return this.each(function(){
- 			var $this = $(this)
- 			, data = $this.data('carousel')
- 			, options = $.extend({}, $.fn.carousel.defaults, (typeof option == 'object') && option)
- 			, action = (typeof option == 'string' ? option : options.slide)
+		})
+	}
 
- 			
- 		});
- 	}
+	$.fn.carousel.defaults = {
+		interval : 5000,
+		pause: 'hover'
+	}
 
+	$.fn.carousel.Constructor = Carousel
 
+	// carousel no conflict
+	$.fn.carousel.noConflict = function(){
+		$.fn.carousel = old
+		return this
+	}
 
- 	// carousel data-api
- 	$(document).on('click.carousel.data-api', '[data-slide], [data-slide-to]', function(e){
- 		var $this = $(this), href
- 		, $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
+	//carousel data-api
+	$(document).on('click.carousel.data-api', '[data-slide], [data-slide-to]', function(e){
+		var $this = $(this), href
+		, $target = $($this.attr('data-target')) || (href = $this.attr('href'))  && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
  		, options = $.extend({}, $target.data(), $this.data())
  		, slideIndex
-
- 		// 將物件的options設定在動作上
+ 	
  		$target.carousel(options)
 
  		if(slideIndex = $this.attr('data-slide-to')){
  			$target.data('carousel').pause().to(slideIndex).cycle()
-
  		}
- 		e.preventDefault()
  	})
 
- }(window.jQuery);
+
+
+}(window.jQuery);
