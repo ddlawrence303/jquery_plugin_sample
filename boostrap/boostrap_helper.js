@@ -10,7 +10,6 @@ if(typeof jQuery === 'underfined'){ throw new Error('Boostrap\'s Javascript requ
 /**
 boostrap: transiton.js v3.1.1
 http://getbootstrap.com/javascript/#ransitions
-
 copyright twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
 */
@@ -278,4 +277,63 @@ copyright twitter, Inc.
 
  	});
 
- }
+ }(window.jQuery);
+
+ /*===============================================================
+  * bootstrap-carousel.js 
+  * http://getbootstrap.com/2.3.2/javascript.html#carousel
+  *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ +function ($) {
+
+ 	'use strict';
+
+
+
+ 	// carousel plugin definition
+ 	var old = $.fn.carousel;
+
+ 	$.fn.carousel = function(option){
+ 		return this.each(function(){
+ 			var $this = $(this)
+ 			, data = $this.data('carousel')
+ 			, options = $.extend({}, $.fn.carousel.defaults, (typeof option == 'object') && option)
+ 			, action = (typeof option == 'string' ? option : options.slide)
+
+ 			
+ 		});
+ 	}
+
+
+
+ 	// carousel data-api
+ 	$(document).on('click.carousel.data-api', '[data-slide], [data-slide-to]', function(e){
+ 		var $this = $(this), href
+ 		, $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
+ 		, options = $.extend({}, $target.data(), $this.data())
+ 		, slideIndex
+
+ 		// 將物件的options設定在動作上
+ 		$target.carousel(options)
+
+ 		if(slideIndex = $this.attr('data-slide-to')){
+ 			$target.data('carousel').pause().to(slideIndex).cycle()
+
+ 		}
+ 		e.preventDefault()
+ 	})
+
+ }(window.jQuery);
