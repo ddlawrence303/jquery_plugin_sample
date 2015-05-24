@@ -328,31 +328,63 @@ copyright twitter, Inc.
 		}
 		, 
 		//get index
-		getActiveIndex = function(e){
-
+		getActiveIndex = function(){
+			this.$active = this.$element.find('.item.active')
+			this.$items = this.$active.parent().children()
+			return this.$items.index(this.$active)
 		}
 		,
 		// to the determination
-		to : function (e) {
+		to : function (pos) {
+			//get the activeIndex
+			var activeIndex = this.getActiveIndex()
+			, that = this
 
+			//setting margin
+			if(pos > (this.$items.length -1) || pos < 0){
+				return;
+			}
+
+			if(activeIndex == pos){
+				//pause the action
+				return this.pause().cycle()
+			}
+
+			return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
 		}
 		,
 		// pause the function
 		pause: function (e) {
-
+			if(!e){
+				this.paused = true
+			}
+			if(this.$element.find('.next, .prev').length && $.support.transition.end){
+				this.$element.trigger($.support.transition.end)
+				this.cycle(true)
+			}
+			clearInterval(this.interval)
+			this.interval = null
+			return this
 		}
 		,
 		next: function(e){
-
+			if(this.sliding){
+				return
+			}
+			return this.slide('next');
 		}
 		,
 		prev: function(e){
-
+			if(this.sliding){
+				return 
+			}
+			return this.slide('prev')
 		}
 		,
 
 		// 滑動效果
-		slide: function(e){
+		slide: function(type, next){
+			var $active = this.$element.find('.item.active')
 
 		}
 	}
@@ -395,7 +427,4 @@ copyright twitter, Inc.
  			$target.data('carousel').pause().to(slideIndex).cycle()
  		}
  	})
-
-
-
 }(window.jQuery);
